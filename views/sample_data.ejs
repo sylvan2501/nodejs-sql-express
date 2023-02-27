@@ -30,7 +30,7 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="mb-3">
-                                        <label>Owner's Name</label>
+                                        <label>Owner Name</label>
                                         <input type="text" name="owner_name" id="owner_name" class="form-control" />
                                     </div>
                                 </div>
@@ -62,12 +62,6 @@
                                         <input type="date" name="birth" id="birth" class="form-control"/>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="mb-3">
-                                        <label>Death Date</label>
-                                        <input type="date" name="death" id="death" class="form-control"/>
-                                    </div>
-                                </div>
                             </div>
                             <div class="mb-3">
                                 <input type="submit" name="submit_button" class="btn btn-primary" value="Add" />
@@ -75,9 +69,58 @@
                         </form>
                     </div>
                 </div>
-
-            <% } else { %>
-                
+            <% } else if(action == 'edit') { %>
+                <div class="card">
+                    <div class="card-header">Edit Form</div>
+                    <div class="card-body">
+                        <form method="POST" action="/sample_data/edit/<%=sampleData.pet_id %>">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Pet Name</label>
+                                        <input type="text" name="pet_name" id="pet_name" class="form-control" value="<%=sampleData.name%>"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Owner Name</label>
+                                        <input type="text" name="owner_name" id="owner_name" class="form-control" value="<%=sampleData.owner%>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Email Address</label>
+                                        <input type="text" name="email" id="email" class="form-control" value="<%=sampleData.email%>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Species</label>
+                                        <input type="text" name="species" id="species" class="form-control" value="<%=sampleData.species%>"/>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Sex</label>
+                                        <input type="text" name="sex" id="sex" class="form-control" value="<%=sampleData.sex%>"/>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label>Birth Date</label>
+                                        <input type="date" name="birth" id="birth" class="form-control" value="<%=sampleData.birth%>"/>
+                                    </div>
+                                </div> -->
+                            </div>
+                            <div class="mb-3">
+                                <input type="submit" name="submit_button" class="btn btn-primary" value="Edit"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+           <% } else { %>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
@@ -94,11 +137,9 @@
                                 <th>Pet Name</th>
                                 <th>Pet Owner</th>
                                 <th>Email Address</th>
-                                <!--<th>Password</th>-->
                                 <th>Species</th>
                                 <th>Sex</th>
                                 <th>Birth</th>
-                                <th>Death</th>
                                 <th>Action</th>
                             </tr>
                             <%
@@ -113,9 +154,13 @@
                                <!--<td><%= data.password %></td>-->
                                 <td><%= data.species %></td>
                                 <td><%= data.sex %></td>
-                                <td><%= data.birth %></td>
-                                <td><%= data.death %></td>
-                                <td></td>
+                                <td><%= moment(data.birth).format('Do MMMM, YYYY') %></td>
+                                <td>
+                                    <a href="/sample_data/edit/<%=data.pet_id %>"
+                                        class="btn btn-primary btn-small btn-sm">Edit</a>
+                                    <a href="/sample_data/delete/<%=data.pet_id %>"
+                                        class="btn btn-danger btn-small btn-sm">Delete</a>
+                                </td>
                             </tr>
                             <%
                                 });
