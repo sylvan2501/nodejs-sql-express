@@ -2,13 +2,24 @@ const express = require('express')
 const router = express.Router()
 let database = require('../database')
 const moment = require('moment')
-router.get('/', (request, response, next)=>{
+
+
+// router.use((request, response, next)=>{
+//     if(!request.session.userId){
+//         response.redirect('/login')
+//     }else{
+//         next()
+//     }
+// })
+
+
+router.get('/sample_data', (request, response, next)=>{
     let query = 'SELECT * FROM db_example.Pets'
     database.query(query, (error, data)=>{
         if (error) throw error
         else{
             response.locals.moment = moment
-            response.render('sample_data', {title: 'Pet Management System', action:'list', sampleData:data})
+            response.render('sample_data', {title: 'Pet Management System', action:'list', sampleData:data, message: request.flash('success'), session: request.session})
         }
     })
     //response.send('List all Sample Data')
@@ -32,21 +43,22 @@ router.post('/add_sample_data', (request, response, next)=>{
     database.query(query, (error, data)=>{
         if(error) throw error
         else{
+            request.flash('success', 'A pet record is added')
             response.redirect('/sample_data')
         }
     })
 })
 
-router.get('/edit/:id', (request, response, next) =>{
+router.get('/sample_data/edit/:id', (request, response, next) =>{
     let id = request.params.id
     let query = `SELECT * FROM db_example.Pets WHERE pet_id = "${id}"`
     database.query(query,(error, data) =>{
         response.locals.moment = moment
-        response.render('sample_Data', {title: 'Edit MySQL Table Data', action: 'edit', sampleData: data[0]})
+        response.render('sample_data', {title: 'Edit MySQL Table Data', action: 'edit', sampleData: data[0]})
     })
 
 })
-router.post('/edit/:id', (request, response, next) =>{
+router.post('/sample_data/edit/:id', (request, response, next) =>{
     let id = request.params.id
     let pet_name = request.body.pet_name
     let owner_name = request.body.owner_name
@@ -65,6 +77,7 @@ router.post('/edit/:id', (request, response, next) =>{
     database.query(query, (error, data)=>{
         if(error) throw error
         else{
+            request.flash('success', 'The pet record is updated')
             response.redirect('/sample_data')
         }
     })
@@ -77,6 +90,7 @@ router.get('/delete/:id',(request, response, next)=>{
     database.query(query, (error, data)=>{
         if(error) throw error
         else{
+            request.flash('success', 'The record is deleted')
             response.redirect('/sample_data')
         }
     })

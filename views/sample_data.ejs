@@ -12,8 +12,8 @@
     </head>
     <body>
         <div class="container">
+            <a href="/logout" class="btn btn-primary btn-sm float-end">Log out</a>
             <h1 class="text-center mt-3 mb-3"><%= title %></h1>
-            
             <% if(action == 'add') { %>
                 <div class="card">
                     <div class="card-header">Sample Form</div>
@@ -121,12 +121,17 @@
                     </div>
                 </div>
            <% } else { %>
+            <% if(message.length > 0){ %>
+                <div class="alert alert-success">
+                    <%= message %>
+                </div>
+            <% } %>
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col">Sample Data</div>
+                        <div class="col">Pet List Data</div>
                         <div class="col">
-                            <a href="/sample_data/add" class="btn btn-success btn-sm float-end">Add</a>
+                            <a href="/add" class="btn btn-success btn-sm float-end">Add</a>
                         </div>
                     </div>
                 </div>
